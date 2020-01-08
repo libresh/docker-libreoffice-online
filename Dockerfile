@@ -60,12 +60,9 @@ RUN set -x && \
     make install && \
     \
 ### Build Fetch LibreOffice - This will take a while..
-    git clone --depth=1 -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/core.git /usr/src/libreoffice-core && \
+RUN git clone --depth=1 -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/core.git --recursive --shallow-submodules /usr/src/libreoffice-core && \
     cd /usr/src/libreoffice-core && \
     echo "lo_sources_ver="`env | grep LIBREOFFICE_VERSION | cut -d'-' -f2` > sources.ver && \
-    git submodule init && \
-    git submodule update translations && \
-    git submodule update dictionaries && \
     cd /usr/src/libreoffice-core && \
     echo "--disable-dbus \n\
 --disable-dconf \n\
