@@ -98,7 +98,7 @@ RUN set -x && \
 --with-external-thes-dir=/usr/share/mythes \n\
 --with-fonts \n\
 --with-galleries=no \n\
---with-lang=en-GB en-US\n\
+--with-lang=fr en-GB en-US\n\
 --with-linker-hash-style=both \n\
 --with-system-dicts \n\
 --with-system-zlib \n\
@@ -185,7 +185,7 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 ENV ADMIN_USER=admin \
     ADMIN_PASS=libreoffice \
     LOG_LEVEL=warning \
-    DICTIONARIES="en_GB en_US" \
+    DICTIONARIES="fr_FR en_GB en_US" \
     ENABLE_SMTP=false \
     PYTHONWARNINGS=ignore
 
@@ -212,6 +212,7 @@ RUN set -x && \
              hunspell \
              hunspell-en-us \
              hunspell-en-gb \
+             hunspell-fr \
 	     libcap2-bin \
              libcups2 \
              libfontconfig1 \
