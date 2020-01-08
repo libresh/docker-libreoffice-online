@@ -2,16 +2,12 @@ FROM tiredofit/debian:stretch as builder
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Environment Variables
-ENV LIBREOFFICE_BRANCH=master \
-    ## cp-6.0.30
-    LIBREOFFICE_COMMIT=3ef1164bc3a13af481102e0abef06929c53bad8b \
-    LOOL_BRANCH=master \
-    ## 4.0.4.1
-    LOOL_COMMIT=a2132266584381c875fa707446417e259753e2f5 \
+ENV LIBREOFFICE_BRANCH=libreoffice-6-2 \
+    LOOL_BRANCH=libreoffice-6-2 \
     MAX_CONNECTIONS=5000 \
     ## Uses Approximately 20mb per document open
     MAX_DOCUMENTS=5000 \
-    POCO_VERSION=1.9.0
+    POCO_VERSION=1.9.4
 
 ### Get Updates
 RUN set -x && \
@@ -64,10 +60,9 @@ RUN set -x && \
     make install && \
     \
 ### Build Fetch LibreOffice - This will take a while..
-    git clone -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/core.git /usr/src/libreoffice-core && \
+    git clone --depth=1 -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/core.git /usr/src/libreoffice-core && \
     cd /usr/src/libreoffice-core && \
     echo "lo_sources_ver="`env | grep LIBREOFFICE_VERSION | cut -d'-' -f2` > sources.ver && \
-    git reset --hard ${LIBREOFFICE_COMMIT} && \
     git submodule init && \
     git submodule update translations && \
     git submodule update dictionaries && \
@@ -136,9 +131,8 @@ RUN set -x && \
     cp -R /usr/src/libreoffice-core/instdir/* /opt/libreoffice/ && \
     \
 ### Build LibreOffice Online (Not as long as above)
-    git clone -b ${LOOL_BRANCH} https://github.com/LibreOffice/online.git /usr/src/libreoffice-online && \
+    git clone --depth=1 -b ${LOOL_BRANCH} https://github.com/LibreOffice/online.git /usr/src/libreoffice-online && \
     cd /usr/src/libreoffice-online && \
-    git reset --hard ${LOOL_COMMIT} && \
     npm install -g \
                 bootstrap \
                 browserify-css \
