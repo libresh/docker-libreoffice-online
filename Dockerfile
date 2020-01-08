@@ -102,7 +102,7 @@ RUN set -x && \
 --with-linker-hash-style=both \n\
 --with-system-dicts \n\
 --with-system-zlib \n\
---with-theme=galaxy \n\
+--with-theme=colibre \n\
 #--with-system-xmlsec \n\
 --without-branding \n\
 --without-help \n\
