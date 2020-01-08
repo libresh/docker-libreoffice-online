@@ -45,11 +45,10 @@ RUN set -x && \
             && \
     \
     apt-get build-dep -y \
-            libreoffice \
-            && \
-    \
+            libreoffice
+
     ### Build and Install Poco Libraries
-    mkdir -p /usr/src/poco && \
+RUN mkdir -p /usr/src/poco && \
     curl -sSL https://pocoproject.org/releases/poco-${POCO_VERSION}/poco-${POCO_VERSION}-all.tar.gz | tar xvfz - --strip 1 -C /usr/src/poco && \
     cd /usr/src/poco && \
     ./configure \
@@ -57,8 +56,8 @@ RUN set -x && \
                 --no-tests \
                 --prefix=/opt/poco \
                 && \
-    make install && \
-    \
+    make install
+
 ### Build Fetch LibreOffice - This will take a while..
 RUN git clone --depth=1 -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/core.git --recursive --shallow-submodules /usr/src/libreoffice-core && \
     cd /usr/src/libreoffice-core && \
@@ -125,10 +124,10 @@ RUN git clone --depth=1 -b ${LIBREOFFICE_BRANCH} https://github.com/LibreOffice/
     mkdir -p /opt/libreoffice && \
     chown -R lool /opt/libreoffice && \
     sudo -u lool make install && \
-    cp -R /usr/src/libreoffice-core/instdir/* /opt/libreoffice/ && \
-    \
+    cp -R /usr/src/libreoffice-core/instdir/* /opt/libreoffice/
+
 ### Build LibreOffice Online (Not as long as above)
-    git clone --depth=1 -b ${LOOL_BRANCH} https://github.com/LibreOffice/online.git /usr/src/libreoffice-online && \
+RUN git clone --depth=1 -b ${LOOL_BRANCH} https://github.com/LibreOffice/online.git /usr/src/libreoffice-online && \
     cd /usr/src/libreoffice-online && \
     npm install -g \
                 bootstrap \
